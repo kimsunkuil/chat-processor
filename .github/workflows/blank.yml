@@ -1,0 +1,26 @@
+name: Process Chat Content
+
+on:
+  push:
+    paths:
+      - 'input.txt'
+
+jobs:
+  process-chat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Process chat content
+        run: |
+          echo "=== 처리된 채팅 내용 ===" > output.txt
+          cat input.txt >> output.txt
+          echo "=== 처리 완료 ===" >> output.txt
+      
+      - name: Commit output file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add output.txt
+          git commit -m "Update output.txt"
+          git push
